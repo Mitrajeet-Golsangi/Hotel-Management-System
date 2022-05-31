@@ -44,7 +44,8 @@ A web application to implement the hotel management system
 
 ### Procedure
 
-1. Run `npm install` after pulling the repo
-2. Create a virtualenv (explained above)
-3. Run `pip install -r requirements.txt`
-4. After everything is installed run the `server.ps1` file in powershell to start the servers
+1. Navigate inside the `hotel_management_system` directory
+2. Run `npm install` after pulling the repo
+3. Create a virtualenv (explained above)
+4. Run `pip install -r requirements.txt`
+5. After everything is installed run the `server.ps1` file in powershell to start the servers
