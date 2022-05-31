@@ -2,6 +2,18 @@
 
 A web application to implement the hotel management system
 
+## Method for setting up the Django Project
+
+1. Create a git repository using `git init`
+2. Add the remote repository using `git add origin https://github.com/Mitrajeet-Golsangi/Hotel-Management-System.git`
+3. Pull your required branch using `git pull --set-upstream origin branch_name`
+4. Now run `pip install virtualenv` in command prompt
+5. Create a virtual environment using `virtualenv dbms_cp`
+6. Activate the virtual environment using `dbms_cp\Scripts\activate`
+7. Now, run `pip install -r requirements.txt`
+8. After setup is complete, add the environment file shared to the collaborators in root directory
+9. Done !
+
 ## Method for Setting up PostgreSQL in Django Application
 
 1. Install PostgreSQL 14.3 from [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
