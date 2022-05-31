@@ -33,3 +33,18 @@ A web application to implement the hotel management system
 15. After successful migration, check your database in postgreSQL
 16. In Servers(1) > PostgreSQL 14 > hotel_management_system > schemas > tables you will see multiple new tables used by default by django
 17. Done ! You are all set with postgreSQL
+
+## Project Setup
+
+### Prerquisits
+
+1. You must have NodeJS installed
+2. You must have the Node Package Manager (npm) installed
+3. You must have Python Installed
+
+### Procedure
+
+1. Run `npm install` after pulling the repo
+2. Create a virtualenv (explained above)
+3. Run `pip install -r requirements.txt`
+4. After everything is installed run the `server.ps1` file in powershell to start the servers
