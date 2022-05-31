@@ -1,6 +1,7 @@
 dbms_cp/
 staticfiles/
 node_modules/
+servers.ps1
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
