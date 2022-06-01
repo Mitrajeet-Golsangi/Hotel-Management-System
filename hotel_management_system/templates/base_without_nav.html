@@ -21,12 +21,8 @@
         <script src="https://kit.fontawesome.com/6cb5393603.js" crossorigin="anonymous"></script>
     </head>
 <body>
-    {% include 'components/navbar.html' %}
-    <div class="p-5 mt-5">           
-        {% block content %}{% endblock %}
-    </div>
-
-    {% include 'components/footer.html' %}
+    {% block content %}{% endblock %}
+    
     {% block javascript %}{% endblock %}
 </body>
 </html>

@@ -1,0 +1,61 @@
+<div class="grid grid-cols-4 grid-rows-auto gap-5">
+	<div
+		class="p-1 shadow-xl bg-gradient-to-br from-blue-600 via-green-600 to-teal-600 rounded-2xl h-min"
+	>
+		<a class="block p-4 bg-white sm:p-8 rounded-xl">
+			<i class="fa-solid fa-house-circle-check fa-2xl text-teal-600"></i>
+			<div class="mt-5 sm:pr-8">
+				<h5 class="text-xl font-bold text-gray-900">Available Rooms</h5>
+
+				<p class="mt-2 text-lg text-gray-500">{{available_rooms}}</p>
+			</div>
+		</a>
+	</div>
+
+	<div
+		class="p-1 shadow-xl bg-gradient-to-br from-blue-600 via-green-600 to-teal-600 rounded-2xl h-min"
+	>
+		<a class="block p-4 bg-white sm:p-8 rounded-xl">
+			<i class="fa-solid fa-house-chimney fa-2xl text-teal-600"></i>
+			<div class="mt-5 sm:pr-8">
+				<h5 class="text-xl font-bold text-gray-900">Standard Rooms</h5>
+
+				<p class="mt-2 text-lg text-gray-500">{{standard_rooms}}</p>
+			</div>
+		</a>
+	</div>
+
+	<div
+		class="p-1 shadow-xl bg-gradient-to-br from-blue-600 via-green-600 to-teal-600 rounded-2xl h-min"
+	>
+		<a class="block p-4 bg-white sm:p-8 rounded-xl">
+			<i class="fa-solid fa-suitcase-rolling fa-2xl text-teal-600"></i>
+			<div class="mt-5 sm:pr-8">
+				<h5 class="text-xl font-bold text-gray-900">Deluxe Rooms</h5>
+
+				<p class="mt-2 text-lg text-gray-500">{{deluxe_rooms}}</p>
+			</div>
+		</a>
+	</div>
+
+	<div
+		class="p-1 shadow-xl bg-gradient-to-br from-blue-600 via-green-600 to-teal-600 rounded-2xl h-min"
+	>
+		<a class="block p-4 bg-white sm:p-8 rounded-xl">
+			<i class="fa-solid fa-hotel fa-2xl text-teal-600"></i>
+			<div class="mt-5 sm:pr-8">
+				<h5 class="text-xl font-bold text-gray-900">Suites</h5>
+
+				<p class="mt-2 text-lg text-gray-500">{{suite}}</p>
+			</div>
+		</a>
+	</div>
+</div>
+<div class="flex justify-between items-top">
+	<div class="flex justify-center mt-4 w-full">
+		{% include 'home/room_registration_form.html' %}
+	</div>
+	<div class="flex justify-center mt-4 w-full mt-44">
+		{% include 'home/available_rooms.html' %}
+	</div>
+</div>

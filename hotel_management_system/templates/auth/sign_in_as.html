@@ -1,0 +1,18 @@
+{% extends 'base_without_nav.html' %}
+{% block title %}Sign In As{% endblock %}
+
+{% block content %}
+
+<div class="flex justify-center flex-col mt-32">
+        <div class="w-1/2 self-center text-center">
+        <div class="text-2xl text-teal-600 font-bold mb-10">
+            You are Registering as a ?
+    </div>
+    
+    <div class="flex justify-around text-sm font-large text-white">
+        <a href="{% url 'guest_register' %}" class="border rounded-tl-xl rounded-bl-xl bg-teal-600 hover:bg-teal-700 px-5 py-3 w-full">Guest User</a>
+        <a href="{% url 'staff_register' %}" class="border rounded-tr-xl rounded-br-xl bg-slate-600 hover:bg-slate-700 px-5 py-3 w-full">Staff User</a>
+    </div>
+</div>
+</div>
+{% endblock %}
