@@ -1,0 +1,132 @@
+{% load static %}
+<!--
+  This component uses @tailwindcss/forms
+
+  yarn add @tailwindcss/forms
+  npm install @tailwindcss/forms
+
+  plugins: [require('@tailwindcss/forms')]
+-->
+
+<div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
+	<div class="max-w-lg mx-auto">
+		<h1 class="text-2xl font-bold text-center text-teal-600 sm:text-3xl">
+			Hurry ! Book your Room Now!
+		</h1>
+
+		<p class="max-w-md mx-auto mt-4 text-center text-gray-500">
+			Your relaxation is our motivation! Reservations on the other hand ...
+		</p>
+
+		<form
+			action="{% url 'reserve' %}"
+			method="post"
+			role="form"
+			class="p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl"
+		>
+			{% csrf_token %}
+
+			<p class="text-lg font-medium">Book a Room</p>
+
+			{% comment %} Quantity Field {% endcomment %}
+			<div>
+				<label for="quantity" class="text-sm font-medium"
+					>Number of People</label
+				>
+
+				<div class="relative mt-1">
+					<input
+						type="number"
+						id="quantity"
+						name="quantity"
+						class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+						placeholder="Number of People"
+                        required
+					/>
+
+					<span class="absolute inset-y-0 inline-flex items-center right-4">
+						<i class="fa-solid fa-people-roof text-slate-600"></i>
+					</span>
+				</div>
+			</div>
+
+			{% comment %} Room Type Field {% endcomment %}
+			<div>
+				<label for="room_type" class="text-sm font-medium">Type of Room</label>
+
+				<div class="relative mt-1">
+					<select
+						id="room_type"
+						name="room_type"
+						class="text-sm ml-3 w-full h-6 text-gray-400"
+						onChange="document.getElementById('staff_access').classList.toggle('hidden');"
+                        required
+					>
+						<option>------</option>
+						<option value="Standard">Standard</option>
+						<option value="Standard No AC">Standard No AC</option>
+						<option value="Deluxe">Deluxe</option>
+						<option value="Suite">Suite</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="flex justify-between items-center">
+				{% comment %} Start Date Field {% endcomment %}
+				<div>
+					<label for="start_date" class="text-sm font-medium">Start Date</label>
+
+					<div class="relative mt-1">
+						<input
+							type="date"
+							id="start_date"
+							name="start_date"
+							class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+                            required
+						/>
+					</div>
+				</div>
+				{% comment %} End Date Field {% endcomment %}
+				<div>
+					<label for="end_date" class="text-sm font-medium">End Date</label>
+
+					<div class="relative mt-1">
+						<input
+							type="date"
+							id="end_date"
+							name="end_date"
+							class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+                            required
+						/>
+					</div>
+				</div>
+			</div>
+
+            {% comment %} Smoking Field {% endcomment %}
+			<div class="flex items-center justify-start">
+				<label for="smoking" class="text-sm font-medium">Smoking</label>
+
+				<input
+					type="checkbox"
+					id="smoking"
+					name="smoking"
+					class="w-full p-4 text-sm border-gray-200 rounded-lg shadow-sm checked:bg-teal-600"
+				/>
+			</div>
+
+			{% comment %} Submit Button {% endcomment %}
+			<button
+				class="block w-full px-5 py-3 text-sm font-medium text-white bg-teal-600 rounded-lg"
+                onclick="send_data()"
+			>
+				Find
+			</button>
+
+			<p class="text-sm text-center text-gray-500">
+				Already have an account?
+				<a class="underline" href="{% url 'login' %}">Sign In</a>
+			</p>
+		</form>
+	</div>
+</div>
+
