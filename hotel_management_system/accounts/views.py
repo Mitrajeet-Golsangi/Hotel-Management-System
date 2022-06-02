@@ -49,7 +49,41 @@ def guest_register(request):
 
 
 def staff_register(request):
-    return render(request, 'auth/staff_register.html')
+    if request.method == "POST":
+
+        email = request.POST.get('email')
+        name = request.POST.get('fullname')
+        password = request.POST.get('password')
+
+        qualification = request.POST.get('education')
+        staff_type = request.POST.get('staff_type')
+        age = request.POST.get('age')
+        sex = request.POST.get('sex')
+        phn = request.POST.get('phone_number')
+
+        user = User.objects.create_user(
+            username=email,
+            first_name=name,
+            email=email,
+            password=password,
+        )
+        user.save()
+
+        staff = Staff(
+            age=age,
+            sex=sex,
+            highest_qualification=qualification,
+            phone_number=phn,
+            staff_type=staff_type
+        )
+
+        staff.user = user
+
+        staff.save()
+
+        return redirect('login')
+    else:
+        return render(request, 'auth/staff_register.html')
 
 def signIn(request):
     if request.method == 'POST':
@@ -69,3 +103,21 @@ def signIn(request):
 def logout(request):
     auth.logout(request)
     return redirect('home')
+
+
+@login_required()
+def profile(request):
+    staff_data = Staff.objects.filter(user=request.user)
+    guest_data = Guest.objects.filter(user=request.user)
+
+    if Staff.objects.filter(user=request.user):
+        is_staff_user = True
+    else:
+        is_staff_user = False
+
+    context = {
+        'staff_data': staff_data,
+        'guest_data': guest_data,
+        'is_staff_user': is_staff_user
+    }
+    return render(request, 'profile/profile.html', context=context)

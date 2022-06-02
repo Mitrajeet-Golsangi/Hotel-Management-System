@@ -1,0 +1,90 @@
+{% extends 'base.html' %} {% block title %}Book Room{% endblock %} 
+{% block content %}
+<section class="text-center">
+	{% for d in data %}
+	<div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
+		<ul
+			class="grid grid-cols-2 gap-4 border-2 border-teal-600 rounded-xl lg:grid-cols-4"
+		>
+			<li class="p-8">
+				<p class="text-2xl font-extrabold text-teal-500">{{d.room_type}}</p>
+				<p class="mt-1 text-lg font-medium">Room Type</p>
+			</li>
+
+			<li class="p-8">
+				<p class="text-2xl font-extrabold text-teal-500">{{d.capacity}}</p>
+				<p class="mt-1 text-lg font-medium">Capacity</p>
+			</li>
+
+			<li class="p-8">
+				<p class="text-2xl font-extrabold text-teal-500">₹{{d.rate}}</p>
+				<p class="mt-1 text-lg font-medium">Rate Per Night</p>
+			</li>
+
+			<li class="p-8">
+				<p class="text-2xl font-extrabold text-teal-500">
+					{% if d.smoking %}Yes{% else %}No{% endif %}
+				</p>
+				<p class="mt-1 text-lg font-medium">Smoking</p>
+			</li>
+		</ul>
+	</div>
+	{% endfor %}
+</section>
+
+<div class="flex flex-col justify-center">
+	<h1 class="text-2xl font-bold text-center text-teal-600 sm:text-3xl">
+		Confirm your Registration !
+	</h1>
+
+	<form
+    action="{% url 'book_room' %}"
+    method="post"
+    role="form"
+    class="self-center p-8 mt-6 mb-0 space-y-4 rounded-lg"
+	>
+
+		{% csrf_token %}
+        {% for d in data %}
+        <input type="hidden" name="room" value="{{d.room_id}}">
+        {% endfor %}
+
+		<div class="flex justify-center items-center">
+			{% comment %} Start Date Field {% endcomment %}
+			<div>
+				<label for="start_date" class="text-sm font-medium">Start Date</label>
+
+				<div class="relative mt-1">
+					<input
+						type="date"
+						id="start_date"
+						name="start_date"
+						class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+						required
+					/>
+				</div>
+			</div>
+			{% comment %} End Date Field {% endcomment %}
+			<div>
+				<label for="end_date" class="text-sm font-medium">End Date</label>
+
+				<div class="relative mt-1">
+					<input
+						type="date"
+						id="end_date"
+						name="end_date"
+						class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+						required
+					/>
+				</div>
+			</div>
+		</div>
+        <button
+                type="submit"
+				class="mt-4 block w-full px-5 py-3 text-sm font-medium text-white bg-teal-600 rounded-lg"
+			>
+				Register
+			</button>
+	</form>
+</div>
+{% endblock %}

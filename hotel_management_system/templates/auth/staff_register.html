@@ -1,3 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'base_without_nav.html' %}
 {% block title %}Staff Registration{% endblock %}
-{% block content %}STAFF{% endblock %}
+{% block content %}
+{% include 'components/staff_register_form.html' %}
+{% endblock %}

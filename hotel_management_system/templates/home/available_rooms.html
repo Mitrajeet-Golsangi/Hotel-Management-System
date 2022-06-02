@@ -6,7 +6,7 @@
 					<th
 						class="px-4 py-2 font-medium text-left text-gray-900 whitespace-nowrap"
 					>
-						Room Number
+						Sr. No.
 					</th>
 					<th
 						class="px-4 py-2 font-medium text-left text-gray-900 whitespace-nowrap"
@@ -28,6 +28,13 @@
 					>
 						Rate
 					</th>
+					
+					<th
+						class="px-4 py-2 font-medium text-left text-gray-900 whitespace-nowrap"
+					>
+						Book
+					</th>
+
 				</tr>
 			</thead>
 
@@ -35,7 +42,7 @@
 				{% for d in data %}
                 <tr>
 					<td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-						{{d.room_id|slice:"0:8"}}
+						{{forloop.counter}}
 					</td>
 					<td class="px-4 py-2 text-gray-700 whitespace-nowrap">{{d.capacity}}</td>
 					<td class="px-4 py-2 text-gray-700 whitespace-nowrap">
@@ -43,10 +50,14 @@
 					</td>
 					<td class="px-4 py-2 text-gray-700 whitespace-nowrap">{{d.floor}}</td>
 					<td class="px-4 py-2 text-gray-700 whitespace-nowrap">{{d.rate}}</td>
+					<td class="px-4 py-2 text-gray-700 whitespace-nowrap"><a href="{% url 'book' d.room_id %}" class="rounded-full bg-teal-600 text-white text-sm font-medium hover:bg-teal-700 p-2">Book Now!</a></td>
 				</tr>
                 {% endfor %}
 			</tbody>
 		</table>
 	</div>
-
+{% else %}
+<p class="max-w-md mx-auto mt-4 text-center text-gray-500">
+    OOPS!🤭 Looks Like we cannot meet your requirements just now. Maybe try again later, you never know ..
+</p>
 {% endif %}

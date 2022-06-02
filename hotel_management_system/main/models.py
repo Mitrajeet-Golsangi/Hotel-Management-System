@@ -1,6 +1,8 @@
 from django.db import models
 import uuid
 
+from django.contrib.auth.models import User
+
 # Create your models here.
 
 ROOM_CHOICES = [
@@ -26,6 +28,8 @@ class Rooms(models.Model):
 
 
 class Reserve(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user")
     room = models.ForeignKey(
         Rooms, on_delete=models.CASCADE, related_name="room")
 

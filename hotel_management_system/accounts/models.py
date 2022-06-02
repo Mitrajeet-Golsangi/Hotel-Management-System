@@ -2,6 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+import uuid
+
 # Create your models here.
 
 SEX_CHOICE = [
@@ -17,41 +19,40 @@ QUALIFICATION_CHOICES = [
     (3, 'MBA'),
 ]
 
-CLEANLINESS_CHOICES = [
-    (1, 1),
-    (2, 2),
-    (3, 3),
-    (4, 4),
-    (5, 5),
-]
-
 STAFF_CHOICES = [
     ('M', "Management"),
     ('Service', (
-            ('SH', 'House Keeping'),
-            ('SK', 'Laundry'),
-            ('SL', 'Kitchen'),
-        )
+        ('SH', 'House Keeping'),
+        ('SL', 'Laundry'),
+        ('SK', 'Kitchen'),
+    )
     ),
 ]
 
+
 class Staff(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='staff_user')
-    
-    staff_id = models.UUIDField()
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='staff_user')
+
+    staff_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
 
     age = models.IntegerField()
     sex = models.CharField(max_length=100, choices=SEX_CHOICE)
 
-    highest_qualification = models.CharField(max_length=100, choices=QUALIFICATION_CHOICES)
+    highest_qualification = models.CharField(
+        max_length=100, choices=QUALIFICATION_CHOICES)
+    phone_number = models.BigIntegerField()
 
     staff_type = models.CharField(max_length=100, choices=STAFF_CHOICES)
 
     def __str__(self):
         return self.staff_id
 
+
 class Guest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='guest_user')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='guest_user')
 
     id_proof = models.ImageField(upload_to='id_proof/%Y/%m/%d/')
 
