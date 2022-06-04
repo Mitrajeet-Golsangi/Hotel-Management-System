@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 
-from accounts.forms import StaffRegistrationForm
 
 from django.contrib.auth.decorators import login_required
 
@@ -9,7 +8,10 @@ from accounts.models import Staff
 
 from django.contrib import messages
 
+from django.http import JsonResponse
 import json
+from django.core.serializers import serialize
+
 
 # Create your views here.
 
@@ -79,38 +81,34 @@ def delete_reservation(request):
 
 # ------------------------------------------------ Guest Views ------------------------------------------------ #
 
+
 @login_required()
 def reserve(request):
     applicable_rm = Rooms.objects.filter(reserved=False)
 
     if request.method == 'POST':
-        print(request.POST)
-        quantity = request.POST.get('quantity')
-        room_type = request.POST.get('room_type')
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-
-        if request.POST.get('smoking') == 'on':
-            smoking = True
-        else:
-            smoking = False
+        data = json.loads(request.body)
+        quantity = data['quantity']
+        smoking = data['smoking']
 
         rooms = applicable_rm.filter(capacity=quantity).filter(
-            room_type=room_type).filter(smoking=smoking).order_by('rate')
-        return render(request, 'home/reserve.html', context={'data': rooms})
+            smoking=smoking)
+        serialized_rooms = serialize('json', rooms)
 
-    available_rooms = applicable_rm.count()
-    standard_rooms = applicable_rm.filter(room_type="Standard").count()
-    deluxe_rooms = applicable_rm.filter(room_type="Deluxe").count()
-    suite = applicable_rm.filter(room_type="Suite").count()
+        return JsonResponse({'data': serialized_rooms})
+    else:
+        available_rooms = applicable_rm.count()
+        standard_rooms = applicable_rm.filter(room_type="Standard").count()
+        deluxe_rooms = applicable_rm.filter(room_type="Deluxe").count()
+        suite = applicable_rm.filter(room_type="Suite").count()
 
-    context = {
-        'available_rooms': available_rooms,
-        'standard_rooms': standard_rooms,
-        'deluxe_rooms': deluxe_rooms,
-        'suite': suite,
-    }
-    return render(request, 'home/reserve.html', context=context)
+        context = {
+            'available_rooms': available_rooms,
+            'standard_rooms': standard_rooms,
+            'deluxe_rooms': deluxe_rooms,
+            'suite': suite,
+        }
+        return render(request, 'reservation/reserve.html', context=context)
 
 
 @login_required()
@@ -124,7 +122,6 @@ def book_room(request, room_id):
 @login_required()
 def confirm_booking(request):
     if request.method == "POST":
-        print(request.POST)
         start_date = request.POST.get("start_date")
         end_date = request.POST.get("end_date")
         room = request.POST.get('room')

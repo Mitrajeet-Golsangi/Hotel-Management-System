@@ -3,6 +3,7 @@ staticfiles/
 node_modules/
 servers.ps1
 
+*.bat
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
