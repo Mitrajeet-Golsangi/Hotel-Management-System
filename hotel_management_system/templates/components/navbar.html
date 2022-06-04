@@ -8,7 +8,7 @@
   >
     <a class="block text-teal-600" href="/">
       <span class="sr-only">Home</span>
-      <img src="{% static 'assets/logo.png' %}" class="w-12" />
+      <img src="{% static 'assets/logo.jpeg' %}" class="w-32" />
     </a>
 
     <div class="flex items-center justify-end flex-1 md:justify-between">
@@ -17,6 +17,7 @@
         <h2 class="sr-only" id="header-navigation">Header navigation</h2>
 
         <ul class="flex items-center gap-6 text-sm">
+          {% if is_staff_user %}
           <li>
             <a class="text-gray-500 transition hover:text-gray-500/75" href="/">
               Home
@@ -27,25 +28,31 @@
               About
             </a>
           </li>
-
+          {% else %}
+          <li>
+            <a class="text-gray-500 transition hover:text-gray-500/75" href="/">
+              Home
+            </a>
+          </li>
+          <li>
+            <a class="text-gray-500 transition hover:text-gray-500/75" href="/">
+              About
+            </a>
+          </li>
+          
           
           <li>
             <a class="text-gray-500 transition hover:text-gray-500/75" href="{% url 'reserve' %}">
               Book Rooms
             </a>
           </li>
-
-          <li>
-            <a class="text-gray-500 transition hover:text-gray-500/75" href="/">
-              Check Room Status
-            </a>
-          </li>
           
           <li>
-            <a class="text-gray-500 transition hover:text-gray-500/75" href="/">
-              See Availability
+            <a class="text-gray-500 transition hover:text-gray-500/75" href="{% url 'my_rooms' %}">
+              My Rooms
             </a>
           </li>
+          {% endif %}
         </ul>
       </nav>
       
@@ -53,7 +60,7 @@
         <div class="sm:gap-4 sm:flex">
           <a
           class="block px-5 py-2.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 transition rounded-md"
-          href="#"
+          href="{% url 'profile' %}"
           >
           Profile
         </a>

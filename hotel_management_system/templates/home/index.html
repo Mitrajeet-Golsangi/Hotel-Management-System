@@ -2,5 +2,35 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-    {% include 'components/banner.html' %}
+
+
+{% if messages %}
+{% for message in messages %}
+<div id="banner" class="px-4 py-3 text-white bg-green-600 transition-opacity delay-1500">
+    <p class="text-sm font-medium text-center">
+        {{message}}
+        <a class="underline" href="/alpinejs"> Learn More &rarr; </a>
+    </p>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if is_staff_user %}
+
+{% include 'home/room_status.html' %}
+{% include 'components/staff_index.html' %}
+
+{% else %}
+{% include 'components/banner.html' %}
+{% endif %}
+{% endblock %}
+
+{% block javascript %}
+{% if messages %}
+<script>
+    setTimeout(() => {
+        document.getElementById('banner').style.opacity = 0;
+    }, 1500)
+</script>
+{% endif %}
 {% endblock %}

@@ -1,6 +1,8 @@
 from django.db import models
 import uuid
 
+from django.contrib.auth.models import User
+
 # Create your models here.
 
 ROOM_CHOICES = [
@@ -24,8 +26,14 @@ class Rooms(models.Model):
 
     floor = models.IntegerField()
 
+    class Meta:
+        verbose_name = 'Room'
+        verbose_name_plural = 'Rooms'
+
 
 class Reserve(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user")
     room = models.ForeignKey(
         Rooms, on_delete=models.CASCADE, related_name="room")
 
@@ -33,3 +41,7 @@ class Reserve(models.Model):
     end_date = models.DateField()
 
     additional_fees = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Reserve'
+        verbose_name_plural = 'Reservations'
