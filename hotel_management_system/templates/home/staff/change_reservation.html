@@ -1,0 +1,143 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Change
+Reservation{% endblock %} {% block content %}
+<div class="flex flex-col justify-center">
+	<h1 class="text-2xl font-bold text-center text-teal-600 sm:text-3xl">
+		Change the Reservation Data
+	</h1>
+</div>
+
+<section class="text-center">
+	{% for d in data %}
+	<div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
+		<ul
+			class="grid grid-cols-2 gap-4 border-2 border-teal-600 rounded-xl lg:grid-cols-4"
+		>
+			<li class="p-8">
+				<p class="text-2xl font-extrabold text-teal-500">
+					{{d.room.room_type}}
+				</p>
+				<p class="mt-1 text-lg font-medium">Room Type</p>
+			</li>
+
+			<li class="p-8">
+				<p class="text-2xl font-extrabold text-teal-500">{{d.room.capacity}}</p>
+				<p class="mt-1 text-lg font-medium">Capacity</p>
+			</li>
+
+			<li class="p-8">
+				<p class="text-2xl font-extrabold text-teal-500">₹{{d.room.rate}}</p>
+				<p class="mt-1 text-lg font-medium">Rate Per Night</p>
+			</li>
+
+			<li class="p-8">
+				<p class="text-2xl font-extrabold text-teal-500">
+					{% if d.room.smoking %}Yes{% else %}No{% endif %}
+				</p>
+				<p class="mt-1 text-lg font-medium">Smoking</p>
+			</li>
+		</ul>
+	</div>
+	{% endfor %}
+</section>
+
+<div class="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
+	<div class="max-w-lg mx-auto">
+		<form
+			action="{% url 'update_reservation' %}"
+			method="post"
+			role="form"
+			class="self-center p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl"
+		>
+			{% csrf_token %} {% for d in data %}
+
+			<input type="hidden" id="room" name="room" value="{{d.room.room_id}}" />
+
+			<div class="flex justify-center items-center">
+				{% comment %} Start Date Field {% endcomment %}
+				<div>
+					<label for="start_date" class="text-sm font-medium">Start Date</label>
+
+					<div class="relative mt-1">
+						<input
+							type="date"
+							id="start_date"
+							name="start_date"
+							class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+							value="{{d.start_date | date:'Y-m-d' }}"
+							required
+						/>
+					</div>
+				</div>
+				{% comment %} End Date Field {% endcomment %}
+				<div>
+					<label for="end_date" class="text-sm font-medium">End Date</label>
+
+					<div class="relative mt-1">
+						<input
+							type="date"
+							id="end_date"
+							name="end_date"
+							class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+							value="{{d.end_date | date:'Y-m-d' }}"
+							required
+						/>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+				<button
+					type="submit"
+					class="mt-4 block w-full px-5 py-3 text-sm font-medium text-white bg-teal-600 rounded-lg"
+				>
+					Register
+				</button>
+				<button
+					onClick="deleteReservation()"
+                    type="button"
+					class="mt-4 block w-full px-5 py-3 text-sm font-medium text-white bg-red-600 rounded-lg"
+				>
+					Cancel Registration
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %} 
+
+{% block javascript %}
+<script>
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+	const csrftoken = getCookie('csrftoken');
+    const data = JSON.stringify({
+        "room": document.getElementById('room').value
+    });
+    function deleteReservation() {
+        console.log('test');
+		fetch("{% url 'delete_reservation' %}", {
+			method: "POST",
+			headers: {
+				Accept: "application/json, text/plain, */*",
+				"Content-Type": "application/json",
+				"X-CSRFToken": csrftoken,
+			},
+            body: data
+		});
+	};
+</script>
+{% endblock %}

@@ -5,6 +5,16 @@ from .models import *
 # Register your models here.
 
 
+def remove_registration(modeladmin, request, queryset):
+
+    queryset.update(reserved=False)
+
+    for d in queryset:
+        Reserve.objects.filter(room=d.room_id).delete()
+
+    remove_registration.short_description = "Remove Registration of Selected Rooms"
+
+
 @admin.register(Rooms)
 class RoomsAdmin(admin.ModelAdmin):
     list_display = (
@@ -16,6 +26,9 @@ class RoomsAdmin(admin.ModelAdmin):
         'floor',
         'reserved'
     )
+    actions = [
+        remove_registration
+    ]
 
 
 @admin.register(Reserve)

@@ -26,6 +26,10 @@ class Rooms(models.Model):
 
     floor = models.IntegerField()
 
+    class Meta:
+        verbose_name = 'Room'
+        verbose_name_plural = 'Rooms'
+
 
 class Reserve(models.Model):
     user = models.ForeignKey(
@@ -37,3 +41,7 @@ class Reserve(models.Model):
     end_date = models.DateField()
 
     additional_fees = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Reserve'
+        verbose_name_plural = 'Reservations'

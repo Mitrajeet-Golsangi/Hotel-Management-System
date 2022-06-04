@@ -9,6 +9,8 @@ from accounts.models import Staff
 
 from django.contrib import messages
 
+import json
+
 # Create your views here.
 
 
@@ -22,6 +24,8 @@ def index(request):
     deluxe_rooms = applicable_rm.filter(room_type="Deluxe").count()
     suite = applicable_rm.filter(room_type="Suite").count()
 
+    data = Reserve.objects.all()
+
     if Staff.objects.filter(user=request.user):
         is_staff_user = True
     else:
@@ -32,11 +36,48 @@ def index(request):
         'standard_rooms': standard_rooms,
         'deluxe_rooms': deluxe_rooms,
         'suite': suite,
-        'is_staff_user': is_staff_user
+        'is_staff_user': is_staff_user,
+        'data': data
     }
 
     return render(request, 'home/index.html', context=context)
 
+
+# ------------------------------------------------ Staff Views ------------------------------------------------ #
+
+@login_required()
+def change_reservation_status(request, id):
+    room = Rooms.objects.get(room_id=id)
+    data = Reserve.objects.filter(room=room)
+
+    context = {
+        "data": data
+    }
+
+    return render(request, 'home/staff/change_reservation.html', context=context)
+
+
+@login_required()
+def update_reservation(request):
+    if request.method == "POST":
+        room = request.POST.get('room')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+
+        # print(request.POST)
+        return redirect('home')
+    return redirect(request, 'home/index.html')
+
+
+@login_required()
+def delete_reservation(request):
+    data = json.loads(request.body)
+    room = Rooms.objects.get(room_id=data['room'])
+    Reserve.objects.filter(room=room).delete()
+    Rooms.objects.get(room_id=data['room']).update(reserved=False)
+    return render(request, 'home/index.html')
+
+# ------------------------------------------------ Guest Views ------------------------------------------------ #
 
 @login_required()
 def reserve(request):

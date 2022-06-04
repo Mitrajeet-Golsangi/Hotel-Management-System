@@ -17,6 +17,7 @@
         <h2 class="sr-only" id="header-navigation">Header navigation</h2>
 
         <ul class="flex items-center gap-6 text-sm">
+          {% if is_staff_user %}
           <li>
             <a class="text-gray-500 transition hover:text-gray-500/75" href="/">
               Home
@@ -27,20 +28,31 @@
               About
             </a>
           </li>
-
+          {% else %}
+          <li>
+            <a class="text-gray-500 transition hover:text-gray-500/75" href="/">
+              Home
+            </a>
+          </li>
+          <li>
+            <a class="text-gray-500 transition hover:text-gray-500/75" href="/">
+              About
+            </a>
+          </li>
+          
           
           <li>
             <a class="text-gray-500 transition hover:text-gray-500/75" href="{% url 'reserve' %}">
               Book Rooms
             </a>
           </li>
-
+          
           <li>
             <a class="text-gray-500 transition hover:text-gray-500/75" href="{% url 'my_rooms' %}">
               My Rooms
             </a>
           </li>
-        
+          {% endif %}
         </ul>
       </nav>
       
