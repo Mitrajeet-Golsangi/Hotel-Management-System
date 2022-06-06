@@ -1,12 +1,4 @@
 {% load static %}
-<!--
-  This component uses @tailwindcss/forms
-
-  yarn add @tailwindcss/forms
-  npm install @tailwindcss/forms
-
-  plugins: [require('@tailwindcss/forms')]
--->
 
 <div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
 	<div class="max-w-lg mx-auto">
@@ -19,8 +11,7 @@
 		</p>
 
 		<form
-			action="{% url 'reserve' %}"
-			method="post"
+			onsubmit="submitForm({% url 'reserve' %}); return false;"
 			role="form"
 			class="p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl"
 		>
@@ -39,6 +30,7 @@
 						type="number"
 						id="quantity"
 						name="quantity"
+						value="2"
 						class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
 						placeholder="Number of People"
                         required
@@ -47,27 +39,6 @@
 					<span class="absolute inset-y-0 inline-flex items-center right-4">
 						<i class="fa-solid fa-people-roof text-slate-600"></i>
 					</span>
-				</div>
-			</div>
-
-			{% comment %} Room Type Field {% endcomment %}
-			<div>
-				<label for="room_type" class="text-sm font-medium">Type of Room</label>
-
-				<div class="relative mt-1">
-					<select
-						id="room_type"
-						name="room_type"
-						class="text-sm ml-3 w-full h-6 text-gray-400"
-						onChange="document.getElementById('staff_access').classList.toggle('hidden');"
-                        required
-					>
-						<option>------</option>
-						<option value="Standard">Standard</option>
-						<option value="Standard No AC">Standard No AC</option>
-						<option value="Deluxe">Deluxe</option>
-						<option value="Suite">Suite</option>
-					</select>
 				</div>
 			</div>
 
@@ -82,7 +53,7 @@
 							id="start_date"
 							name="start_date"
 							class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
-                            required
+                            
 						/>
 					</div>
 				</div>
@@ -96,7 +67,7 @@
 							id="end_date"
 							name="end_date"
 							class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
-                            required
+                            
 						/>
 					</div>
 				</div>
@@ -117,7 +88,7 @@
 			{% comment %} Submit Button {% endcomment %}
 			<button
 				class="block w-full px-5 py-3 text-sm font-medium text-white bg-teal-600 rounded-lg"
-                onclick="send_data()"
+				type="submit"
 			>
 				Find
 			</button>
@@ -130,3 +101,6 @@
 	</div>
 </div>
 
+{% block javascript %}
+	<script src="{% static 'js/reserve.js' %}"></script>
+{% endblock %}

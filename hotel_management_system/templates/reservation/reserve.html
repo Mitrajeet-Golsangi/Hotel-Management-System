@@ -2,13 +2,13 @@
 {% block title %}Reserve Rooms{% endblock %}
 {% block content %}
 
-{% include 'home/room_status.html' %}
+{% include 'reservation/room_status.html' %}
 <div class="grid grid-cols-1 lg:grid-cols-2 grid-rows-auto justify-between items-top w-full">
 	<div class="flex justify-center mt-4 w-full">
-		{% include 'home/room_registration_form.html' %}
+		{% include 'reservation/room_registration_form.html' %}
 	</div>
 	<div class="flex justify-center mt-4 w-full mt-44">
-		{% include 'home/available_rooms.html' %}
+		{% include 'reservation/available_rooms.html' %}
 	</div>
 </div>
 
