@@ -19,7 +19,7 @@ services:
   db:
     image: postgres
     restart: always 
-    command: -p 5433
+    command: -p 5432
     env_file:
       - ./hotel_management_system/.env
     expose:
