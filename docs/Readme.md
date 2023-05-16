@@ -8,16 +8,17 @@
 - [2. Deploying application to Minikube](#2-deploying-application-to-minikube)
   - [2.1. Prerequisites](#21-prerequisites)
   - [2.2. Steps to Deploy on Minikube](#22-steps-to-deploy-on-minikube)
-    - [Start the Minikube cluster](#start-the-minikube-cluster)
-    - [Build images using Minikube docker env](#build-images-using-minikube-docker-env)
-    - [Database Deployment](#database-deployment)
-    - [Application Deployment](#application-deployment)
+    - [2.2.1. Start the Minikube cluster](#221-start-the-minikube-cluster)
+    - [2.2.2. Build images using Minikube docker env](#222-build-images-using-minikube-docker-env)
+    - [2.2.3. Database Deployment](#223-database-deployment)
+    - [2.2.4. Application Deployment](#224-application-deployment)
+    - [2.2.5. Port Forwarding](#225-port-forwarding)
 
 ---
 
 ## 1. Project Structure
 
-![Project Structure](./assets/structure.dio.svg)
+![Project Structure](./assets/structure.png)
 
 ## 2. Deploying application to Minikube
 
@@ -35,7 +36,7 @@
 
 ### 2.2. Steps to Deploy on Minikube
 
-#### Start the Minikube cluster
+#### 2.2.1. Start the Minikube cluster
 
 - Open the command prompt and run the command below to start the minikube cluster
 
@@ -51,7 +52,7 @@ minikube start
 minikube dashboard
 ```
 
-#### Build images using Minikube docker env
+#### 2.2.2. Build images using Minikube docker env
 
 - To enable the Minikube docker engine run the command below
 
@@ -67,7 +68,7 @@ docker compose build
 
 ![Build Output](./assets/command%20outputs/3.png)
 
-#### Database Deployment
+#### 2.2.3. Database Deployment
 
 - Now, apply the database secrets and persistent volumes using the command
 
@@ -105,7 +106,7 @@ kubectl get service
 
 - Now, copy the IP for the database service and put it in the application's config map
 
-#### Application Deployment
+#### 2.2.4. Application Deployment
 
 - Now that the database is deployed, we can deploy the application
 
@@ -134,6 +135,8 @@ kubectl exec -it <pod-name> -- /bin/bash
 /opt/venv/bin/python manage.py makemigrations && \
 /opt/venv/bin/python manage.py migrate
 ```
+
+#### 2.2.5. Port Forwarding
 
 - Now, in order to access the remote pod from the local machine, we will use port forwarding
 
