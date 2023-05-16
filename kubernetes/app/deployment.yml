@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: django-app
+  name: django-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-app
+  template:
+    metadata:
+      labels:
+        app: django-app
+    spec:
+      initContainers:
+        - name: collectstatic
+          image: hotel-management-k8s
+          imagePullPolicy: "Never"
+          command: ["python3", "manage.py"]
+          envFrom:
+            - secretRef:
+                name: django-secret
+            - configMapRef:
+                name: django-configmap
+          volumeMounts:
+            - name: staticfiles
+              mountPath: /static/
+      # --------------------------------------------- Django App Container --------------------------------------------- #
+      containers:
+      - name: hotel-management-system
+        image: hotel-management-k8s
+        imagePullPolicy: "Never"
+        ports:
+          - containerPort: 8000
+            protocol: TCP
+        envFrom:
+          - secretRef:
+              name: django-secret
+          - configMapRef:
+              name: django-configmap
+        volumeMounts:
+          - name: staticfiles
+            mountPath: /static/
+            readOnly: false
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      # ----------------------------------------------- Nginx Container ------------------------------------------------ #
+      - name: nginx
+        image: nginx
+        imagePullPolicy: "Always"
+        ports:
+          - containerPort: 80
+            protocol: TCP 
+        volumeMounts:
+          - name: nginx-conf
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+            readOnly: true
+          - name: staticfiles
+            mountPath: /static/
+            readOnly: true
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      volumes:
+        - name: staticfiles
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf

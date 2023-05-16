@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: django-configmap
+data:
+  DEBUG: 'True'
+  POSTGRES_DB: 'hotel_management_system'
+  POSTGRES_HOST: '10.105.178.191'  # Change the IP address as per your service ID
+  POSTGRES_PORT: '5432'
