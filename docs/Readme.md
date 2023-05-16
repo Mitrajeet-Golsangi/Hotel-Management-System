@@ -39,7 +39,7 @@
 
 - Open the command prompt and run the command below to start the minikube cluster
 
-```
+```bash
 minikube start
 ```
 
@@ -47,7 +47,7 @@ minikube start
 
 - Now, run the command below to open the dashboard
 
-```
+```bash
 minikube dashboard
 ```
 
@@ -55,13 +55,13 @@ minikube dashboard
 
 - To enable the Minikube docker engine run the command below
 
-```
+```bash
 minikube docker-env | Invoke-Expression
 ```
 
 - Build the current projects docker image using
 
-```
+```bash
 docker compose build
 ```
 
@@ -71,7 +71,7 @@ docker compose build
 
 - Now, apply the database secrets and persistent volumes using the command
 
-```
+```bash
 kubectl apply -f ./db/secret.yaml
 kubectl apply -f ./db/storage.yaml
 ```
@@ -80,7 +80,7 @@ kubectl apply -f ./db/storage.yaml
 
 - Now, deploy the database using the command
 
-```
+```bash
 kubectl apply -f ./db/deployment.yml
 ```
 
@@ -88,7 +88,7 @@ kubectl apply -f ./db/deployment.yml
 
 - Check the status of the deployment using the command
 
-```
+```bash
 kubectl get pods
 ```
 
@@ -96,7 +96,7 @@ kubectl get pods
 
 - Now, deploy the database service using the command and get the database local IP and Port
 
-```
+```bash
 kubectl apply -f ./db/service.yaml
 kubectl get service
 ```
@@ -119,13 +119,30 @@ kubectl apply -f ./app/deployment.yml && \
 kubectl apply -f ./app/service.yml
 ```
 
+![App Deployment](./assets/command%20outputs/7.png)
+
 - Now we will open a terminal inside the django container, to do this run the command
 
-```
+```bash
 kubectl get pods
 kubectl exec -it <pod-name> -- /bin/bash
 ```
 
-![App Deployment](./assets/command%20outputs/7.png)
+- Now run the command below in order to apply migrations to the database
 
-- Done !
+```bash
+/opt/venv/bin/python manage.py makemigrations && \
+/opt/venv/bin/python manage.py migrate
+```
+
+- Now, in order to access the remote pod from the local machine, we will use port forwarding
+
+```bash
+kubectl port-forward service/django-service 8000:8000;
+```
+
+![Port Forwarding](./assets/command%20outputs/8.png)
+
+- Done ! Now you can access the application on http://localhost:8000
+
+![Webapp Demo](./assets/command%20outputs/9.png)
