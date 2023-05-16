@@ -25,13 +25,19 @@ RUN /opt/venv/bin/pip3 install pip --upgrade && \
 COPY package*.json .
 
 # Install dependencies
-RUN npm i
+RUN npm install
 
 # Copy all the code from the local file system to the app directory and set it as the working directory
 COPY . /app
 
-# Activate the production server without actually activating the virtual environment
-RUN chmod +x entrypoint.sh
+# Compile all the tailwindcss files
+RUN npx tailwindcss -i ./static/css/styles.css -o ./static/dist/output.css
 
-# Running the entrypoint file to start the production server
-CMD ["/app/entrypoint.sh"]
+# Start the production server
+CMD ["/opt/venv/bin/gunicorn", "--worker-tmp-dir", "/dev/shm", "hotel_management_system.wsgi:application", "--bind", "0.0.0.0:8000"]
+
+# # Activate the production server without actually activating the virtual environment
+# RUN chmod +x entrypoint.sh
+
+# # Running the entrypoint file to start the production server
+# CMD ["entrypoint.sh"]
